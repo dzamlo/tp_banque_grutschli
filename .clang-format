@@ -1,0 +1,8 @@
+Language: Cpp
+BasedOnStyle:  Chromium
+#AlignAfterOpenBracket: AlwaysBreak
+AlignAfterOpenBracket: false
+BinPackArguments: false
+BreakBeforeBinaryOperators: NonAssignment
+IndentWidth:     2 # or 4 ?
+PointerAlignment: Right
