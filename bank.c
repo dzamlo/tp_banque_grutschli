@@ -14,3 +14,7 @@ void *bank_thread_fn(void *args) {
     }
     return NULL;
 }
+
+void init_bank(bank_t *bank) {
+
+}

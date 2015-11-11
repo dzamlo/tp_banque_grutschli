@@ -25,8 +25,11 @@ int main(int argc, char *argv[]) {
     p = atof(argv[3]);
     d0 = 10*d1;
     
-    
-    bank_params_t bank_params = {};
+    bank_t bank;
+    init_bank(&bank);
+
+    bank_params_t bank_params = {&bank};
+    init_bank(&bank);
     pthread_t bank_thread;
     pthread_create(&bank_thread, NULL, bank_thread_fn, &bank_params);
 
@@ -37,6 +40,7 @@ int main(int argc, char *argv[]) {
         inhabitants_params[i].d0 = d0;
         inhabitants_params[i].d1 = d1;
         inhabitants_params[i].p = p;
+        inhabitants_params[i].bank = &bank;
 
         pthread_create(&inhabitants_threads[i], NULL, inhabitant_thread_fn, &inhabitants_params[i]);
         
