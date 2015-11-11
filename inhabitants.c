@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <unistd.h>
 
 #include "inhabitants.h"
 
@@ -18,7 +19,9 @@ void *inhabitant_thread_fn(void *args) {
     printf("start of inhabitant #%d\n", params.id);
 
     while(true) {
-
+         sleep(params.d0);
+         uint32_t t = get_ticket(params.bank);
+         printf("inhabitans #%d got ticket %d\n", params.id, t);
     }
     return NULL;
 }
