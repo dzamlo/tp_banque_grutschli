@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <pthread.h>
 
+#include "bank.h"
 #include "inhabitants.h"
 
 void usage(char *argv0) {
@@ -25,6 +26,10 @@ int main(int argc, char *argv[]) {
     d0 = 10*d1;
     
     
+    bank_params_t bank_params = {};
+    pthread_t bank_thread;
+    pthread_create(&bank_thread, NULL, bank_thread_fn, &bank_params);
+
     inhabitant_params_t inhabitants_params[nb_inhabitants];
     pthread_t inhabitants_threads[nb_inhabitants];
     for(uint32_t i = 0; i < nb_inhabitants; i++) {
@@ -37,6 +42,6 @@ int main(int argc, char *argv[]) {
         
     }
     
-    pthread_exit(NULL);
-    //return EXIT_SUCCESS;
+    pthread_join(bank_thread, NULL);
+    return EXIT_SUCCESS;
 }
