@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
         inhabitants_params[i].d1 = d1;
         inhabitants_params[i].p = p;
         inhabitants_params[i].bank = &bank;
-        srandom_r(i, &inhabitants_params[i].rng);
+	inhabitants_params[i].rng = i;
 
         pthread_create(&inhabitants_threads[i], NULL, inhabitant_thread_fn, &inhabitants_params[i]);
         

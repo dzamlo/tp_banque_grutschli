@@ -4,9 +4,10 @@
 
 #include "inhabitants.h"
 
-bool goes_away(struct random_data *rng, double p) {
-    int32_t rand_value;
-    random_r(rng, &rand_value);
+
+bool goes_away(unsigned int *rng, double p) {
+    int rand_value;
+    rand_value = rand_r(rng);
     double n = rand_value / (double)RAND_MAX;
     return n < p;
 }
