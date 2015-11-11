@@ -21,7 +21,22 @@ void *inhabitant_thread_fn(void *args) {
     while(true) {
          sleep(params.d0);
          uint32_t t = get_ticket(params.bank);
+		
+         //what if the bank_manager check  the 	queue between get_tciket and stand_in_line()
          printf("inhabitans #%d got ticket %d\n", params.id, t);
+         &params.bank.queue[params.id].t = t;
+
+         uint32_t inhabitant_before = get_inhabitant_before(bank, t);
+
+         if(inhabitant_before > 3 && goes_away(&params.rng, params.p) {
+              sleep(inhabitant_before*params.d1);
+              //if ticket not used -> stand_in line
+              // else sem_post waiting_inhabitants
+         } else {
+             // the inhabitants decided to wait in the queue
+             stand_in_line(&params.bank, params.id);
+         }
+         
     }
     return NULL;
 }
