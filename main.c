@@ -4,6 +4,7 @@
 #include <pthread.h>
 
 #include "bank.h"
+#include "bank_manager.h"
 #include "inhabitants.h"
 
 void usage(char *argv0) {
@@ -28,10 +29,10 @@ int main(int argc, char *argv[]) {
     bank_t bank;
     init_bank(&bank);
 
-    bank_params_t bank_params = {&bank};
+    bank_manager_params_t bank_manager_params = {&bank};
     init_bank(&bank);
     pthread_t bank_thread;
-    pthread_create(&bank_thread, NULL, bank_thread_fn, &bank_params);
+    pthread_create(&bank_thread, NULL, bank_manager_thread_fn, &bank_manager_params);
 
     inhabitant_params_t inhabitants_params[nb_inhabitants];
     pthread_t inhabitants_threads[nb_inhabitants];

@@ -11,7 +11,7 @@ LDFLAGS = -lpthread -lm -lrt
 #LDFLAGS += -fsanitize=undefined -fsanitize=thread
 
 OUTS = banque_grutschli
-OBJS_banque_grutschli = main.o inhabitants.o bank.o
+OBJS_banque_grutschli = main.o inhabitants.o bank.o bank_manager.o
 OBJS = $(OBJS_banque_grutschli)
 
 DEPS = $(OBJS:.o=.d)
