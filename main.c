@@ -6,6 +6,7 @@
 #include "bank.h"
 #include "bank_manager.h"
 #include "inhabitants.h"
+#include "util.h"
 
 void usage(char *argv0) {
     printf("Usage:\n");
@@ -13,6 +14,7 @@ void usage(char *argv0) {
 }
 
 int main(int argc, char *argv[]) {
+    int pthread_create_return;
     unsigned int d1, d0;
     uint32_t nb_inhabitants;
     double p;
@@ -31,8 +33,9 @@ int main(int argc, char *argv[]) {
 
     bank_manager_params_t bank_manager_params = {&bank};
     init_bank(&bank);
-    pthread_t bank_thread;
-    pthread_create(&bank_thread, NULL, bank_manager_thread_fn, &bank_manager_params);
+    pthread_t bank_manager_thread;
+    pthread_create_return = pthread_create(&bank_manager_thread, NULL, bank_manager_thread_fn, &bank_manager_params);
+    CHECK_EXIT(pthread_create_return != 0, "can't create bank_manger thread");
 
     inhabitant_params_t inhabitants_params[nb_inhabitants];
     pthread_t inhabitants_threads[nb_inhabitants];
@@ -44,10 +47,10 @@ int main(int argc, char *argv[]) {
         inhabitants_params[i].bank = &bank;
 	inhabitants_params[i].rng = i;
 
-        pthread_create(&inhabitants_threads[i], NULL, inhabitant_thread_fn, &inhabitants_params[i]);
-        
+        pthread_create_return = pthread_create(&inhabitants_threads[i], NULL, inhabitant_thread_fn, &inhabitants_params[i]);
+        CHECK_EXIT(pthread_create_return != 0, "can't create one of inhabitant threads");
     }
     
-    pthread_join(bank_thread, NULL);
+    pthread_join(bank_manager_thread, NULL);
     return EXIT_SUCCESS;
 }
