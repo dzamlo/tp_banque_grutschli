@@ -9,6 +9,7 @@ typedef struct inhabitant_params_st {
      unsigned int d1;
      unsigned int d0;
      double p;
+     struct random_data rng;
      bank_t *bank;
 } inhabitant_params_t;
 
