@@ -10,9 +10,9 @@ LDFLAGS = -lpthread -lm -lrt
 #CFLAGS += -g -O0 -fno-omit-frame-pointer -fsanitize=undefined -fsanitize=thread
 #LDFLAGS += -fsanitize=undefined -fsanitize=thread
 
-OUTS = convolution
-OBJS_convolution = convolution.o image.o main.o ppm.o
-OBJS = $(OBJS_convolution)
+OUTS = banque_grutschli
+OBJS_banque_grutschli = main.o
+OBJS = $(OBJS_banque_grutschli)
 
 DEPS = $(OBJS:.o=.d)
 
@@ -22,8 +22,8 @@ all: $(OUTS)
 
 -include $(DEPS)
 
-convolution: $(OBJS_convolution)
-	$(CC) $(LDFLAGS) $^ -o $@
+banque_grutschli: $(OBJS_banque_grutschli)
+	$(CC) $^ -o $@ $(LDFLAGS)
 
 %.d: %.c
 	$(CPP) $(CFLAGS) $< -MM -MT $(@:.d=.o) >$@
