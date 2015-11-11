@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <pthread.h>
+
+#include "inhabitants.h"
 
 void usage(char *argv0) {
     printf("Usage:\n");
@@ -8,7 +11,7 @@ void usage(char *argv0) {
 }
 
 int main(int argc, char *argv[]) {
-    unsigned int d1;
+    unsigned int d1, d0;
     uint32_t nb_inhabitants;
     double p;
     if(argc != 4) {
@@ -16,11 +19,24 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    d1 = atoi(argv[1]);
-    nb_inhabitants = atoi(argv[2]);
+    nb_inhabitants = atoi(argv[1]);
+    d1 = atoi(argv[2]);
     p = atof(argv[3]);
-    printf("%d %d %f\n", d1, nb_inhabitants, p);
+    d0 = 10*d1;
     
+    
+    inhabitant_params_t inhabitants_params[nb_inhabitants];
+    pthread_t inhabitants_threads[nb_inhabitants];
+    for(uint32_t i = 0; i < nb_inhabitants; i++) {
+        inhabitants_params[i].id = i;
+        inhabitants_params[i].d0 = d0;
+        inhabitants_params[i].d1 = d1;
+        inhabitants_params[i].p = p;
 
-    return EXIT_SUCCESS;
+        pthread_create(&inhabitants_threads[i], NULL, inhabitant_thread_fn, &inhabitants_params[i]);
+        
+    }
+    
+    pthread_exit(NULL);
+    //return EXIT_SUCCESS;
 }
