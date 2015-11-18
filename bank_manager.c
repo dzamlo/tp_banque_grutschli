@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-
+#include <unistd.h>
 #include "bank_manager.h"
 
 void *bank_manager_thread_fn(void *args) {
@@ -16,8 +16,19 @@ void *bank_manager_thread_fn(void *args) {
         sem_wait(&params.bank->waiting_inhabitants);
         printf("bank manager: there is at leat one  waiting inhabitant\n");
         sem_wait(&(params.bank->mutex_queue));
-        for(uint32_t i; i < params->queue_size; i++) {
-
+        for(uint32_t i = 0; i < params.bank->queue_size; i++) {
+            if(params.bank->queue[i].t == params.bank->t_in_service) {
+                if(!params.bank->queue[i].goes_away) {
+                    printf("bank manager start serving inhabitant #%d\n", i);
+                    usleep(params.d1);
+                    printf("bank manager has served inhabitant #%d\n", i);
+                    sem_post(&(params.bank->queue[i].wake_sem)); 
+                } else {
+                      printf("bank manager has not served inhabitant #%d because he is outside\n", i);
+                      sem_post(&params.bank->waiting_inhabitants);
+                }
+                break;
+            }
         }
         sem_post(&(params.bank->mutex_queue));
        

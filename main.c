@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
     bank_t bank;
     init_bank(&bank, nb_inhabitants);
 
-    bank_manager_params_t bank_manager_params = {&bank};
+    bank_manager_params_t bank_manager_params = {&bank, d1};
     pthread_t bank_manager_thread;
     pthread_create_return = pthread_create(&bank_manager_thread, NULL, bank_manager_thread_fn, &bank_manager_params);
     CHECK_EXIT(pthread_create_return != 0, "can't create bank_manger thread");

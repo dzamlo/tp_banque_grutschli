@@ -22,11 +22,12 @@ void *inhabitant_thread_fn(void *args) {
     printf("start of inhabitant #%d\n", params.id);
 
     while(true) {
-         sleep(params.d0);
+         usleep(params.d0);
          take_ticket=true;
          while(take_ticket) {
 		 sem_wait(&(params.bank->mutex_queue));
 		 uint32_t t = get_ticket(params.bank);
+                 params.bank->queue[id].t = t;
 		 printf("inhabitant #%d got ticket %d\n", id, t);
 		 uint32_t inhabitant_before = get_inhabitant_before(params.bank, t);
 		 bool goes_away = inhabitant_before > 3 && decide_goes_away(&params.rng, params.p);
@@ -35,8 +36,8 @@ void *inhabitant_thread_fn(void *args) {
 
 		 if(goes_away) {
                       printf("inhabitant #%d goes away\n", id);
-		      sleep(inhabitant_before*params.d1);
-                     printf("inhabitant #%d returned to the bank\n", id);
+		      usleep(inhabitant_before*params.d1);
+                      printf("inhabitant #%d returned to the bank\n", id);
                       sem_wait(&(params.bank->mutex_queue));
                       ticket_expired = get_ticket_expired(params.bank, t);
                       if(ticket_expired) {
@@ -55,25 +56,7 @@ void *inhabitant_thread_fn(void *args) {
                      take_ticket = false;
                      printf("inhabitant #%d has been served\n", id);
 		}
-        }
-       
-/*		
-         //what if the bank_manager check  the 	queue between get_tciket and stand_in_line()
-         printf("inhabitans #%d got ticket %d\n", params.id, t);
-         params.bank->queue[params.id].t = t;
-
-         uint32_t inhabitant_before = get_inhabitant_before(params.bank, t);
-
-         if(inhabitant_before > 3 && goes_away(&params.rng, params.p)) {
-              sleep(inhabitant_before*params.d1);
-              //if ticket not used -> stand_in line
-              // else sem_post waiting_inhabitants
-         } else {
-             // the inhabitants decided to wait in the queue
-             stand_in_line(params.bank, params.id);
-         }
-*/
-         
+        }        
     }
     return NULL;
 }
