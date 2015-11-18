@@ -24,12 +24,12 @@ void *bank_manager_thread_fn(void *args) {
         for(uint32_t i = 0; i < params.bank->queue_size; i++) {
             if(params.bank->queue[i].t == params.bank->t_in_service) {
                 if(!params.bank->queue[i].goes_away) {
-                    printf("bank manager start serving inhabitant #%d\n", i);
+                    printf("bank manager start serving inhabitant #%d (ticket #%d)\n", i, params.bank->queue[i].t);
                     usleep(params.d1);
-                    printf("bank manager has served inhabitant #%d\n", i);
+                    printf("bank manager has served inhabitant #%d (ticket #%d)\n", i, params.bank->queue[i].t);
                     sem_post(&(params.bank->queue[i].wake_sem)); 
                 } else {
-                      printf("bank manager has not served inhabitant #%d because he is outside\n", i);
+                      printf("bank manager has not served inhabitant #%d (ticket #%d) because he is outside\n", i, params.bank->queue[i].t);
                       sem_post(&params.bank->waiting_inhabitants);
                 }
                 break;
