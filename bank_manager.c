@@ -10,9 +10,9 @@ void *bank_manager_thread_fn(void *args) {
     printf("start of bank\n");
 
     while(true) {
-        sem_wait(&bank->mutex_t_in_service);
-        bank->t_in_service++;
-        sem_post(&bank->mutex_t_in_service);
+        sem_wait(&params.bank->mutex_t_in_service);
+        params.bank->t_in_service++;
+        sem_post(&params.bank->mutex_t_in_service);
 
         sem_wait(&params.bank->waiting_inhabitants);
         

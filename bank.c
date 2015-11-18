@@ -34,12 +34,12 @@ uint32_t get_ticket(bank_t *bank) {
 }
 
 void stand_in_line(bank_t *bank, uint32_t id) {
-     bank_queue[i].waiting = true;
+     bank->queue[id].waiting = true;
      sem_post(&bank->waiting_inhabitants);
-     sem_wait(&bank.queue[i].wake_sem);
+     sem_wait(&bank->queue[id].wake_sem);
 }
 
-uint32_t inhabitant_before(bank_t *bank, uint32_t t) {
+uint32_t get_inhabitant_before(bank_t *bank, uint32_t t) {
     uint32_t result;
     sem_wait(&bank->mutex_t_in_service);
     result = t - bank->t_in_service;
