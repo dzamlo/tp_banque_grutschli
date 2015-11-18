@@ -11,6 +11,10 @@
 void usage(char *argv0) {
   printf("Usage:\n");
   printf("%s <nb_inhabitants> <d1> <p>\n", argv0);
+  printf("\n");
+  printf("  nb_inhabitants: the number of inhabitants\n");
+  printf("  d1: the delay d1 in microseconds\n");
+  printf("  p: the probability p\n");
 }
 
 int main(int argc, char *argv[]) {
