@@ -7,7 +7,7 @@
 void *bank_manager_thread_fn(void *args) {
   bank_manager_params_t params = *(bank_manager_params_t *)args;
 
-  printf("start of bank\n");
+  printf("bank manager: start\n");
 
   while (true) {
     sem_wait(&params.bank->mutex_t_in_service);
@@ -16,7 +16,7 @@ void *bank_manager_thread_fn(void *args) {
 #ifndef NDEBUG
     int sval;
     sem_getvalue(&params.bank->waiting_inhabitants, &sval);
-    printf("bank manager: people waiting %d\n", sval);
+    printf("bank manager: %d inhabitant(s) waiting\n", sval);
 #endif
     sem_wait(&params.bank->waiting_inhabitants);
     printf("bank manager: there is at leat one  waiting inhabitant\n");

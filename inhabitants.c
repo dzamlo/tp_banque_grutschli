@@ -18,7 +18,7 @@ void *inhabitant_thread_fn(void *args) {
   inhabitant_params_t params = *(inhabitant_params_t *)args;
   uint32_t id = params.id;
 
-  printf("start of inhabitant #%d\n", params.id);
+  printf("inhabitant #%d: start\n", params.id);
 
   while (true) {
     usleep(params.d0);
