@@ -13,10 +13,14 @@ void *bank_manager_thread_fn(void *args) {
         sem_wait(&params.bank->mutex_t_in_service);
         params.bank->t_in_service++;
         sem_post(&params.bank->mutex_t_in_service);
-
         sem_wait(&params.bank->waiting_inhabitants);
-        
         printf("bank manager: there is at leat one  waiting inhabitant\n");
+        sem_wait(&(params.bank->mutex_queue));
+        for(uint32_t i; i < params->queue_size; i++) {
+
+        }
+        sem_post(&(params.bank->mutex_queue));
+       
     }
     return NULL;
 }
