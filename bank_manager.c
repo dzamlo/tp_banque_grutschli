@@ -30,6 +30,7 @@ void *bank_manager_thread_fn(void *args) {
                     sem_post(&(params.bank->queue[i].wake_sem)); 
                 } else {
                       printf("bank manager has not served inhabitant #%d (ticket #%d) because he is outside\n", i, params.bank->queue[i].t);
+                      // inhabitant who goes outiside don't post waiting_inhabitants (they are not wainting in the line)
                       sem_post(&params.bank->waiting_inhabitants);
                 }
                 break;
