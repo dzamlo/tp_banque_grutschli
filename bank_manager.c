@@ -19,7 +19,7 @@ void *bank_manager_thread_fn(void *args) {
     printf("bank manager: %d inhabitant(s) waiting\n", sval);
 #endif
     sem_wait(&params.bank->waiting_inhabitants);
-    printf("bank manager: there is at leat one  waiting inhabitant\n");
+    printf("bank manager: there is at least one  waiting inhabitant\n");
     sem_wait(&(params.bank->mutex_queue));
     for (uint32_t i = 0; i < params.bank->queue_size; i++) {
       if (params.bank->queue[i].t == params.bank->t_in_service) {
