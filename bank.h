@@ -9,7 +9,7 @@
 typedef struct queue_element_st {
   sem_t wake_sem;
   uint32_t t;
-  bool goes_away;  // TODO rename this: is_away, away, ...
+  bool is_away;
 } queue_element_t;
 
 typedef struct bank_st {

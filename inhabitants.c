@@ -29,12 +29,12 @@ void *inhabitant_thread_fn(void *args) {
       params.bank->queue[id].t = t;
       printf("inhabitant #%d got ticket %d\n", id, t);
       uint32_t inhabitant_before = get_inhabitant_before(params.bank, t);
-      bool goes_away =
+      bool is_away =
           inhabitant_before > 3 && decide_goes_away(&params.rng, params.p);
-      params.bank->queue[id].goes_away = goes_away;
+      params.bank->queue[id].is_away = is_away;
       sem_post(&(params.bank->mutex_queue));
 
-      if (goes_away) {
+      if (is_away) {
         printf("inhabitant #%d goes away\n", id);
         usleep(inhabitant_before * params.d1);
         printf("inhabitant #%d returned to the bank\n", id);
@@ -43,14 +43,14 @@ void *inhabitant_thread_fn(void *args) {
         if (ticket_expired) {
           printf("inhabitant #%d ticket expired\n", id);
         }
-        params.bank->queue[id].goes_away = false;
+        params.bank->queue[id].is_away = false;
         sem_post(&(params.bank->mutex_queue));
 
       } else {
         printf("inhabitant #%d doesn't goes away\n", id);
       }
 
-      if (!goes_away || !ticket_expired) {
+      if (!is_away || !ticket_expired) {
         printf("inhabitant #%d stands in line\n", id);
         stand_in_line(params.bank, id);
         take_ticket = false;

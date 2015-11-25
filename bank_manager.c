@@ -23,7 +23,7 @@ void *bank_manager_thread_fn(void *args) {
     sem_wait(&(params.bank->mutex_queue));
     for (uint32_t i = 0; i < params.bank->queue_size; i++) {
       if (params.bank->queue[i].t == params.bank->t_in_service) {
-        if (!params.bank->queue[i].goes_away) {
+        if (!params.bank->queue[i].is_away) {
           printf("bank manager start serving inhabitant #%d (ticket #%d)\n",
               i,
               params.bank->queue[i].t);

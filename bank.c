@@ -23,7 +23,7 @@ void init_bank(bank_t *bank, uint32_t nb_inhabitants) {
     sem_return = sem_init(&bank->queue[i].wake_sem, 0, 0);
     CHECK_EXIT(sem_return != 0, "can't waiting_inhabitants");
     bank->queue[i].t = 0;
-    bank->queue[i].goes_away = false;
+    bank->queue[i].is_away = false;
   }
 }
 
