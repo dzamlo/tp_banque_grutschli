@@ -5,6 +5,11 @@
 #include "bank.h"
 #include "util.h"
 
+/*********
+** Initialize the bank
+** bank : ptr to the bank structure
+** nb_inhabitants : number of inhabitants
+**********/
 void init_bank(bank_t *bank, uint32_t nb_inhabitants) {
   int sem_return;
   bank->t = 1;
@@ -27,6 +32,11 @@ void init_bank(bank_t *bank, uint32_t nb_inhabitants) {
   }
 }
 
+/*********
+** Get the next ticket
+** bank : ptr to the bank structure
+** returns a ticket number
+**********/
 uint32_t get_ticket(bank_t *bank) {
   uint32_t t;
   sem_wait(&bank->mutex_t);
@@ -35,6 +45,12 @@ uint32_t get_ticket(bank_t *bank) {
   return t;
 }
 
+/*********
+** Check if the given ticket is expired
+** bank : ptr to the bank structure
+** t : given ticket number
+** return true : expired / false : not expired
+**********/
 bool get_ticket_expired(bank_t *bank, uint32_t t) {
   bool ticket_expired;
   sem_wait(&bank->mutex_t);
@@ -45,12 +61,22 @@ bool get_ticket_expired(bank_t *bank, uint32_t t) {
   return ticket_expired;
 }
 
+/*********
+** Make an inhabitant stands in line
+** bank : ptr to the bank structure
+** id : inhabitant's id
+**********/
 void stand_in_line(bank_t *bank, uint32_t id) {
-  //     bank->queue[id].waiting = true;
   sem_post(&bank->waiting_inhabitants);
   sem_wait(&bank->queue[id].wake_sem);
 }
 
+/*********
+** Get the number of inhabitants with a ticket before the given ticket number
+** bank : ptr to the bank structure
+** t : the given ticket number
+** return the number of inhabitants with a ticket before the given ticket number
+**********/
 uint32_t get_inhabitant_before(bank_t *bank, uint32_t t) {
   uint32_t result;
   sem_wait(&bank->mutex_t_in_service);
