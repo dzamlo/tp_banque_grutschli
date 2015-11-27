@@ -72,8 +72,6 @@ void *inhabitant_thread_fn(void *args) {
 
       } else {
         printf("inhabitant #%d doesn't goes away\n", id);
-        ticket_expired = false;  // if the inhabitant doesn't goes away, his
-                                 // ticket can't expire
       }
 
       // Inhabitant is in the bank and his ticket is valid
