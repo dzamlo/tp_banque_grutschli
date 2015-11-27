@@ -20,10 +20,10 @@ void *bank_manager_thread_fn(void *args) {
   printf("bank manager: start\n");
 
   while (true) {
-    // Lock critical section (incrementation of t_in_service)
+    // Lock access to t_in_service
     sem_wait(&params.bank->mutex_t_in_service);
     params.bank->t_in_service++;
-    // End of critical section
+    // Unlock access to t_in_service
     sem_post(&params.bank->mutex_t_in_service);
 // Only for debug
 #ifndef NDEBUG
