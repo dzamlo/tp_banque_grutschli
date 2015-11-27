@@ -31,7 +31,7 @@ bool decide_goes_away(unsigned int *rng, double p) {
 **********/
 void *inhabitant_thread_fn(void *args) {
   bool take_ticket;
-  bool ticket_expired;
+
   inhabitant_params_t params = *(inhabitant_params_t *)args;
   uint32_t id = params.id;
 
@@ -61,7 +61,7 @@ void *inhabitant_thread_fn(void *args) {
         printf("inhabitant #%d returned to the bank\n", id);
         // Lock access to the queue
         sem_wait(&(params.bank->mutex_queue));
-        // Get if his ticket is already passed
+        // Check if his ticket is already expired
         ticket_expired = get_ticket_expired(params.bank, t);
         if (ticket_expired) {
           printf("inhabitant #%d ticket expired\n", id);
@@ -72,12 +72,15 @@ void *inhabitant_thread_fn(void *args) {
 
       } else {
         printf("inhabitant #%d doesn't goes away\n", id);
+        ticket_expired = false;  // if the inhabitant doesn't goes away, his
+                                 // ticket can't expire
       }
 
       // Inhabitant is in the bank and his ticket is valid
       if (!is_away || !ticket_expired) {
         printf("inhabitant #%d stands in line\n", id);
-        // Inhabitant wait in the queue : asleep
+        // Inhabitant wait in the queue, he will be waked by the bank_manager
+        // when he is served
         stand_in_line(params.bank, id);
         take_ticket = false;
         printf("inhabitant #%d has been served\n", id);
