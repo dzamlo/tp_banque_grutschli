@@ -80,7 +80,7 @@ void *inhabitant_thread_fn(void *args) {
       if (!is_away || !ticket_expired) {
         printf("inhabitant #%d stands in line\n", id);
         // Inhabitant wait in the queue, he will be waked by the bank_manager
-        // when he is served
+        // when he has been served
         stand_in_line(params.bank, id);
         take_ticket = false;
         printf("inhabitant #%d has been served\n", id);

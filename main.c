@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
         pthread_create_return != 0, "can't create one of inhabitant threads");
   }
 
-  // Needed to prevent program from exit
+  // Needed to prevent program from exiting
   pthread_join(bank_manager_thread, NULL);
   return EXIT_SUCCESS;
 }
