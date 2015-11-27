@@ -1,7 +1,7 @@
 CC = gcc
 CPP = cpp
 CFLAGS = -Wall -Wextra -pedantic --std=gnu99 -g -pthread
-LDFLAGS = -lpthread -lm -lrt
+LDFLAGS = -lpthread
 
 #CC = clang
 #CFLAGS += -g -O0 -fno-omit-frame-pointer -fsanitize=address -fsanitize=leak -fsanitize=undefined
