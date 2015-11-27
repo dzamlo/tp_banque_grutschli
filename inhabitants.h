@@ -1,3 +1,9 @@
+/*********
+** bank_manager.c
+** An inhabitant : header file
+** Loïc Damien et Simon Menetrey
+** 27.11.2015
+**********/
 #ifndef INHABITANTS_H
 #define INHABITANTS_H
 

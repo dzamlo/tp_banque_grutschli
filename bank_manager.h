@@ -1,3 +1,9 @@
+/*********
+** bank_manager.h
+** The bank manager : header file
+** Loïc Damien et Simon Menetrey
+** 27.11.2015
+**********/
 #ifndef BANK_MANAGER_H
 #define BANK_MANAGER_H
 

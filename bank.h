@@ -1,3 +1,9 @@
+/*********
+** bank.c
+** The bank
+** Loïc Damien et Simon Menetrey
+** 27.11.2015
+**********/
 #ifndef BANK_H
 #define BANK_H
 

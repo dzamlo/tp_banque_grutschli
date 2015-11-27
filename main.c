@@ -1,3 +1,9 @@
+/*********
+** main.c
+** Main program
+** Loïc Damien et Simon Menetrey
+** 27.11.2015
+**********/
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -8,6 +14,10 @@
 #include "inhabitants.h"
 #include "util.h"
 
+/*********
+** Show usage informations
+** argv0 : the program's name
+**********/
 void usage(char *argv0) {
   printf("Usage:\n");
   printf("%s <nb_inhabitants> <d1> <p>\n", argv0);
@@ -17,6 +27,9 @@ void usage(char *argv0) {
   printf("  p: the probability p\n");
 }
 
+/*********
+** Entry point
+**********/
 int main(int argc, char *argv[]) {
   int pthread_create_return;
   unsigned int d1, d0;
@@ -34,13 +47,15 @@ int main(int argc, char *argv[]) {
 
   bank_t bank;
   init_bank(&bank, nb_inhabitants);
-
+  
+  //Start bank manager
   bank_manager_params_t bank_manager_params = {&bank, d1};
   pthread_t bank_manager_thread;
   pthread_create_return = pthread_create(
       &bank_manager_thread, NULL, bank_manager_thread_fn, &bank_manager_params);
   CHECK_EXIT(pthread_create_return != 0, "can't create bank_manger thread");
 
+  //Start inhabitants
   inhabitant_params_t inhabitants_params[nb_inhabitants];
   pthread_t inhabitants_threads[nb_inhabitants];
   for (uint32_t i = 0; i < nb_inhabitants; i++) {
@@ -59,6 +74,7 @@ int main(int argc, char *argv[]) {
         pthread_create_return != 0, "can't create one of inhabitant threads");
   }
 
+  //Needed to prevent program from exit
   pthread_join(bank_manager_thread, NULL);
   return EXIT_SUCCESS;
 }
