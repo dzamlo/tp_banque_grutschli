@@ -74,7 +74,7 @@ bool get_ticket_expired(bank_t *bank, uint32_t t) {
 **********/
 void stand_in_line(bank_t *bank, uint32_t id) {
   sem_post(&bank->waiting_inhabitants);
-  //Inhabitant will wait till bank manager wake him
+  // Inhabitant will wait till bank manager wake him
   sem_wait(&bank->queue[id].wake_sem);
 }
 
