@@ -25,7 +25,6 @@ void *bank_manager_thread_fn(void *args) {
     params.bank->t_in_service++;
     // Unlock access to t_in_service
     sem_post(&params.bank->mutex_t_in_service);
-// Only for debug
 #ifndef NDEBUG
     int sval;
     sem_getvalue(&params.bank->waiting_inhabitants, &sval);
@@ -38,9 +37,7 @@ void *bank_manager_thread_fn(void *args) {
     sem_wait(&(params.bank->mutex_queue));
     // Check all inhabitants to find the one with the right ticket
     for (uint32_t i = 0; i < params.bank->queue_size; i++) {
-      // Find the right one
       if (params.bank->queue[i].t == params.bank->t_in_service) {
-        // Check if inhabitant is away or not
         if (!params.bank->queue[i].is_away) {
           // Inhabitant is here
           printf("bank manager start serving inhabitant #%d (ticket #%d)\n",
