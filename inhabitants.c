@@ -41,7 +41,7 @@ void *inhabitant_thread_fn(void *args) {
     usleep(params.d0);
     take_ticket = true;
     while (take_ticket) {
-      // Lock critical section (protect tickets incrementation)
+      // Lock access to the queue
       sem_wait(&(params.bank->mutex_queue));
       uint32_t t = get_ticket(params.bank);
       params.bank->queue[id].t = t;
@@ -51,7 +51,7 @@ void *inhabitant_thread_fn(void *args) {
       bool is_away =
           inhabitant_before > 3 && decide_goes_away(&params.rng, params.p);
       params.bank->queue[id].is_away = is_away;
-      // End of critical section
+      // Unlock access to the queue
       sem_post(&(params.bank->mutex_queue));
       // Inhabitant decided to goes away
       if (is_away) {
@@ -59,7 +59,7 @@ void *inhabitant_thread_fn(void *args) {
         // Waiting (is outside)
         usleep(inhabitant_before * params.d1);
         printf("inhabitant #%d returned to the bank\n", id);
-        // Lock critical section
+        // Lock access to the queue
         sem_wait(&(params.bank->mutex_queue));
         // Get if his ticket is already passed
         ticket_expired = get_ticket_expired(params.bank, t);
@@ -67,7 +67,7 @@ void *inhabitant_thread_fn(void *args) {
           printf("inhabitant #%d ticket expired\n", id);
         }
         params.bank->queue[id].is_away = false;
-        // End of ctitical section
+        // Unlock access to the queue
         sem_post(&(params.bank->mutex_queue));
 
       } else {

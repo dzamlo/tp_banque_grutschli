@@ -34,13 +34,13 @@ void *bank_manager_thread_fn(void *args) {
     // Fall asleep if there isn't any inhabitant in the queue
     sem_wait(&params.bank->waiting_inhabitants);
     printf("bank manager: there is at least one  waiting inhabitant\n");
-    // Lock critical section
+    // Lock access to the queue
     sem_wait(&(params.bank->mutex_queue));
     // Check all inhabitants to find the one with the right ticket
     for (uint32_t i = 0; i < params.bank->queue_size; i++) {
       // Find the right one
       if (params.bank->queue[i].t == params.bank->t_in_service) {
-        // Check is inhabitant is away or not
+        // Check if inhabitant is away or not
         if (!params.bank->queue[i].is_away) {
           // Inhabitant is here
           printf("bank manager start serving inhabitant #%d (ticket #%d)\n",
@@ -66,7 +66,7 @@ void *bank_manager_thread_fn(void *args) {
         break;
       }
     }
-    // End of crtitical section
+    // Unlock access to the queue
     sem_post(&(params.bank->mutex_queue));
   }
   return NULL;
