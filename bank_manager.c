@@ -42,7 +42,7 @@ void *bank_manager_thread_fn(void *args) {
       if (params.bank->queue[i].t == params.bank->t_in_service) {
 		//Check is inhabitant is away or not
         if (!params.bank->queue[i].is_away) {
-		  //Is here
+		  //Inhabitant is here
           printf("bank manager start serving inhabitant #%d (ticket #%d)\n",
               i,
               params.bank->queue[i].t);
@@ -59,7 +59,7 @@ void *bank_manager_thread_fn(void *args) {
               "he is outside\n",
               i,
               params.bank->queue[i].t);
-          // inhabitant who goes outiside don't post waiting_inhabitants (they are not waiting in the line)
+          // inhabitant who goes outside don't post waiting_inhabitants (they are not waiting in the line)
           sem_post(&params.bank->waiting_inhabitants);
         }
         break;
