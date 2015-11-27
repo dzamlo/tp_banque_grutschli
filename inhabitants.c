@@ -56,7 +56,6 @@ void *inhabitant_thread_fn(void *args) {
       // Inhabitant decided to goes away
       if (is_away) {
         printf("inhabitant #%d goes away\n", id);
-        // Waiting (is outside)
         usleep(inhabitant_before * params.d1);
         printf("inhabitant #%d returned to the bank\n", id);
         // Lock access to the queue
